@@ -10,18 +10,25 @@ public class Person {
     private int id;
     private String firstName;
     private String lastName;
-    private String city;
-    private String zip;
     private String phone;
     private String email;
     private Date birthdate;
     @OneToOne
     private MedicalRecord medicalRecord;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "address_id")
     private Address address;
 
+    public Person() {
+    }
+
+    public Person(String firstName, String lastName, String phone, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.email = email;
+    }
 
     public int getId() {
         return id;
@@ -41,22 +48,6 @@ public class Person {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
     }
 
     public String getPhone() {

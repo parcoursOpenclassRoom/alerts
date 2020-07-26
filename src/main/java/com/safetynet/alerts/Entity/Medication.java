@@ -1,5 +1,7 @@
 package com.safetynet.alerts.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,10 +10,17 @@ public class Medication {
     @GeneratedValue
     private int id;
     private String libelle;
-    private String weight;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "medical_record_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "medicalRecord_id", nullable = false)
+    @JsonIgnore
     private MedicalRecord medicalRecord;
+
+    public Medication() {
+    }
+
+    public Medication(String libelle) {
+        this.libelle = libelle;
+    }
 
     public int getId() {
         return id;
@@ -23,14 +32,6 @@ public class Medication {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
     }
 
     public MedicalRecord getMedicalRecord() {

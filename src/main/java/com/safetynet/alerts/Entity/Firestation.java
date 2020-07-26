@@ -1,5 +1,7 @@
 package com.safetynet.alerts.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,10 +10,16 @@ public class Firestation {
     @GeneratedValue
     private int id;
     private String station;
-
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+    public Firestation(String station, Address address) {
+        this.station = station;
+        this.address = address;
+    }
+    public Firestation() {
+    }
 
     public int getId() {
         return id;

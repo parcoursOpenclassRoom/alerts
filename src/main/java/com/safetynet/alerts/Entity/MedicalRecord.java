@@ -1,5 +1,7 @@
 package com.safetynet.alerts.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +11,13 @@ public class MedicalRecord {
     @Id
     @GeneratedValue
     private int id;
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "medical_record")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "medicalRecord")
     private List<Medication> medication = new ArrayList<>();
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "medical_record")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "medicalRecord")
     private List<Allergie> allergie = new ArrayList<>();
+
+    public MedicalRecord() {
+    }
 
     public int getId() {
         return id;

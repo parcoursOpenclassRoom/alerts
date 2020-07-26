@@ -1,5 +1,7 @@
 package com.safetynet.alerts.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,8 +11,16 @@ public class Allergie {
     private int id;
     private String libelle;
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "medical_record_id", nullable = false)
+    @JoinColumn(name = "medicalRecord_id")
+    @JsonIgnore
     private MedicalRecord medicalRecord;
+
+    public Allergie() {
+    }
+
+    public Allergie(String libelle) {
+        this.libelle = libelle;
+    }
 
     public int getId() {
         return id;
