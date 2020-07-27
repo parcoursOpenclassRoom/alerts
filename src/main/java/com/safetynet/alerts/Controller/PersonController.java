@@ -20,4 +20,10 @@ public class PersonController {
     public List getChildFromAddress(@RequestParam String address){
         return personManager.personChildByAddress(address);
     }
+
+    @JsonView(JsonViews.ViewPersonPhone.class)
+    @GetMapping("phoneAlert")
+    public List getPhoneFromFirestation(@RequestParam int firestation){
+        return personManager.personPhoneByFirestation(firestation);
+    }
 }

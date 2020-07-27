@@ -1,8 +1,10 @@
 package com.safetynet.alerts.Manager.person;
 
 import com.safetynet.alerts.Entity.Address;
+import com.safetynet.alerts.Entity.Firestation;
 import com.safetynet.alerts.Entity.Person;
 import com.safetynet.alerts.Manager.address.AddressManager;
+import com.safetynet.alerts.Manager.firestation.FirestationManager;
 import com.safetynet.alerts.Manager.medicalRecord.MedicalRecordManager;
 import com.safetynet.alerts.Manager.util.DateUtil;
 import com.safetynet.alerts.Repository.PersonRepository;
@@ -23,6 +25,8 @@ public class PersonManagerImpl implements PersonManager {
     AddressManager addressManager;
     @Autowired
     MedicalRecordManager medicalRecordManager;
+    @Autowired
+    FirestationManager firestationManager;
 
     @Override
     public Person save(Person person) {
@@ -82,6 +86,16 @@ public class PersonManagerImpl implements PersonManager {
     @Override
     public List<Person> personChildByAddress(String address) {
         return personRepository.findByAddress_Libelle(address).stream().filter( (a) ->  a.getAge() < 18 ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List personPhoneByFirestation(int station) {
+        List<Firestation> firestations = firestationManager.findByStation(station);
+        List<Person> personList = new ArrayList<>();
+        for (Firestation firestation : firestations){
+            personList.addAll(findByAdresse(firestation.getAddress()));
+        }
+        return personList;
     }
 
     private boolean majorMinor(Date birthdate){

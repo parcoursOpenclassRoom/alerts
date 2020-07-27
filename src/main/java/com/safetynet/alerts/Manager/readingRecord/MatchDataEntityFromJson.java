@@ -24,8 +24,8 @@ public class MatchDataEntityFromJson implements MatchDataEntity {
             Person person = new Person(
                     (String) object.get("firstName"),
                     (String) object.get("lastName"),
-                    (String) object.get("lastName"),
-                    (String) object.get("phone")
+                    (String) object.get("phone"),
+                    (String) object.get("email")
             );
             City city = new City(
                     (String) object.get("city"),

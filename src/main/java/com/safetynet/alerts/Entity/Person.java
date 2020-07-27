@@ -18,7 +18,7 @@ public class Person {
     private String firstName;
     @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonAddress.class})
     private String lastName;
-    @JsonView(JsonViews.ViewFirestation.class)
+    @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonPhone.class})
     private String phone;
     private String email;
     private Date birthdate;

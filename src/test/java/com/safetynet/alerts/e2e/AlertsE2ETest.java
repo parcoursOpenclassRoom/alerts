@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,6 +41,26 @@ public class AlertsE2ETest {
         ResponseEntity<Map> response = restTemplate.exchange(
                 createURLWithPort(uri),
                 HttpMethod.GET, entity, Map.class);
+        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+    }
+
+    @Test
+    public void getChildFromAddressTest(){
+        String uri = "childAlert?address=1509 Culver St";
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<List> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.GET, entity, List.class);
+        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+    }
+
+    @Test
+    public void getPhoneFromFirestationTest(){
+        String uri = "phoneAlert?firestation=1";
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<List> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.GET, entity, List.class);
         assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
     }
 
