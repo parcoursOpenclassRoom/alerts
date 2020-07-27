@@ -1,6 +1,8 @@
 package com.safetynet.alerts.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.safetynet.alerts.Manager.util.JsonViews;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ public class Address {
     @Id
     @GeneratedValue
     private int id;
+    @JsonView(JsonViews.ViewFirestation.class)
     private String libelle;
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "city_id")

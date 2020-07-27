@@ -1,5 +1,8 @@
 package com.safetynet.alerts.Entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.safetynet.alerts.Manager.util.JsonViews;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -8,8 +11,11 @@ public class Person {
     @Id
     @GeneratedValue
     private int id;
+    @JsonView(JsonViews.ViewFirestation.class)
     private String firstName;
+    @JsonView(JsonViews.ViewFirestation.class)
     private String lastName;
+    @JsonView(JsonViews.ViewFirestation.class)
     private String phone;
     private String email;
     private Date birthdate;
@@ -18,6 +24,7 @@ public class Person {
 
     @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "address_id")
+    @JsonView(JsonViews.ViewFirestation.class)
     private Address address;
 
     public Person() {
