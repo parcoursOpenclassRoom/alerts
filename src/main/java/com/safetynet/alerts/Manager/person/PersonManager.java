@@ -1,8 +1,11 @@
 package com.safetynet.alerts.Manager.person;
 
+import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.Person;
 
 import java.util.List;
+import java.util.Map;
+
 /**
  * Person actions manager
  */
@@ -37,4 +40,11 @@ public interface PersonManager {
      * @return
      */
     Person findByLastNameAndFirstName(String firstName, String lastName);
+    /**
+     * return list persons of adresse
+     * @param address
+     * @return
+     */
+    List<Person> findByAdresse(Address address);
+    Map<String,Integer> ageCount(List<Person> personList);
 }

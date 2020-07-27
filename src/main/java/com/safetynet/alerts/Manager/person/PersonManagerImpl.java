@@ -5,12 +5,14 @@ import com.safetynet.alerts.Entity.Firestation;
 import com.safetynet.alerts.Entity.Person;
 import com.safetynet.alerts.Manager.address.AddressManager;
 import com.safetynet.alerts.Manager.medicalRecord.MedicalRecordManager;
+import com.safetynet.alerts.Manager.util.DateUtil;
 import com.safetynet.alerts.Repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.*;
 
 @Service
 public class PersonManagerImpl implements PersonManager {
@@ -53,6 +55,34 @@ public class PersonManagerImpl implements PersonManager {
     @Override
     public Person findByLastNameAndFirstName(String firstName, String lastName) {
         return personRepository.findTopByFirstNameAndLastName(firstName,lastName);
+    }
+
+    @Override
+    public List<Person> findByAdresse(Address address) {
+        return personRepository.findByAddress(address);
+    }
+
+    @Override
+    public Map<String,Integer> ageCount(List<Person> personList){
+        Map<String,Integer> count = new HashMap<>();
+        int major = 0;
+        int minor = 0;
+        for (Person person : personList){
+            if (majorMinor(person.getBirthdate())) {
+                major++;
+            } else {
+                minor++;
+            }
+        }
+        count.put("major", major);
+        count.put("minor", minor);
+        return count;
+    }
+
+    private boolean majorMinor(Date birthdate){
+        LocalDate now = LocalDate.now();
+        int age = Period.between(DateUtil.convertToLocalDateTime(birthdate), now).getYears();
+        return age >= 18 ? true : false;
     }
 
     private Person persist(Person person){

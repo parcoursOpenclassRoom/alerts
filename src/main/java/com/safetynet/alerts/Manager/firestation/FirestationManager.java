@@ -5,6 +5,7 @@ import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.Firestation;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Firestation actions manager
@@ -44,4 +45,18 @@ public interface FirestationManager {
      * @return
      */
     Firestation findByAddressAndStation(Address address, String station);
+
+    /**
+     * return Persons of station number
+     * @param stationNumber
+     * @return
+     */
+    Map getPersonsOfStation(int stationNumber);
+
+    /**
+     * return Firestation of stationNumber
+     * @param stationNumber
+     * @return
+     */
+    List<Firestation> findByStation(int stationNumber);
 }

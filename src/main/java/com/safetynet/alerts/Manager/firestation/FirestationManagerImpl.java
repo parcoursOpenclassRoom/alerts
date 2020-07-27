@@ -2,14 +2,21 @@ package com.safetynet.alerts.Manager.firestation;
 
 import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.Firestation;
+import com.safetynet.alerts.Entity.Person;
+import com.safetynet.alerts.Manager.util.DateUtil;
 import com.safetynet.alerts.Manager.address.AddressManager;
+import com.safetynet.alerts.Manager.person.PersonManager;
 import com.safetynet.alerts.Repository.FirestationRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FirestationManagerImpl implements FirestationManager {
@@ -18,12 +25,17 @@ public class FirestationManagerImpl implements FirestationManager {
     FirestationRepository firestationRepository;
     @Autowired
     AddressManager addressManager;
+    @Autowired
+    PersonManager personManager;
 
     @Override
     public Firestation save(Firestation firestation) {
         // check that a non-persisted address exists and we record
-        if(firestation.getAddress() != null && firestation.getAddress().getId() == 0 ){
-            firestation.setAddress(addressManager.save(firestation.getAddress()));
+        if(firestation.getAddress() != null ){
+            Address address = addressManager.findByLibelle(firestation.getAddress().getLibelle());
+            if(address == null)
+                address = addressManager.save(firestation.getAddress());
+            firestation.setAddress(address);
         }
         // we check if it is an update or a new instance
         Firestation firestationExist = findByAddressAndStation(firestation.getAddress(), firestation.getStation());
@@ -56,4 +68,24 @@ public class FirestationManagerImpl implements FirestationManager {
     public Firestation findByAddressAndStation(Address address, String station) {
         return firestationRepository.findByAddressAndStation(address, station);
     }
+
+    @Override
+    public Map getPersonsOfStation(int stationNumber) {
+        Map person = new HashMap<>();
+        List<Firestation> firestations = findByStation(stationNumber);
+        List<Person> personList = new ArrayList<>();
+        for (Firestation firestation : firestations){
+            personList.addAll(personManager.findByAdresse(firestation.getAddress()));
+        }
+        person.put("persons", personList);
+        person.put("countdown", personManager.ageCount(personList));
+        return person;
+    }
+
+    @Override
+    public List<Firestation> findByStation(int stationNumber) {
+        return firestationRepository.findByStation(String.valueOf(stationNumber));
+    }
+
+
 }

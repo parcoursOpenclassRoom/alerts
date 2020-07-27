@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ReadingRecordE2ETest {
+public class AlertsE2ETest {
 
     @LocalServerPort
     private int port;
@@ -24,8 +24,18 @@ public class ReadingRecordE2ETest {
     int STATUS_CODE_SUCCESS = 200;
 
     @Test
-    public void readAndSaveTest(){
+    public void readAndSaveJsonTest(){
         String uri = "api/reading-url?url=https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DA+Java+EN/P5+/data.json";
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<Map> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.GET, entity, Map.class);
+        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+    }
+
+    @Test
+    public void getPersonsOfStationTest(){
+        String uri = "firestation?stationNumber=1";
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
         ResponseEntity<Map> response = restTemplate.exchange(
                 createURLWithPort(uri),
