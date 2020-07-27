@@ -1,6 +1,7 @@
 package com.safetynet.alerts.Controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Manager.person.PersonManager;
 import com.safetynet.alerts.Manager.util.JsonViews;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,11 @@ public class PersonController {
     @GetMapping("fire")
     public List getPersonsFire(@RequestParam String address){
         return personManager.personByAddressAndFire(address);
+    }
+
+    @JsonView(JsonViews.ViewPersonStations.class)
+    @GetMapping("flood/stations")
+    public List<Address> getPersonsStations(@RequestParam int stations){
+        return personManager.personByStation(stations);
     }
 }

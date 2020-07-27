@@ -8,4 +8,7 @@ public class JsonViews {
     public class ViewPersonPhone {}
 
     public class ViewPersonAddressFire { }
+
+    public class ViewPersonStations {
+    }
 }

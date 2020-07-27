@@ -7,6 +7,7 @@ import com.safetynet.alerts.Manager.util.JsonViews;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class MedicalRecord {
@@ -40,5 +41,14 @@ public class MedicalRecord {
 
     public void setAllergie(List<Allergie> allergie) {
         this.allergie = allergie;
+    }
+
+    @JsonView(JsonViews.ViewPersonStations.class)
+    public String getMedicalLibelle(){
+        String medicationLibelle = this.medication.stream().map(Medication::getLibelle)
+                .collect(Collectors.joining(", "));
+        String allergieLibelle = this.allergie.stream().map(Allergie::getLibelle)
+                .collect(Collectors.joining(", "));
+        return "posologie -> " + medicationLibelle + "; allergies -> " + allergieLibelle;
     }
 }

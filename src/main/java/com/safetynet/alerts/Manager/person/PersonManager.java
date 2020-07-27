@@ -52,4 +52,6 @@ public interface PersonManager {
     List personPhoneByFirestation(int firestation);
 
     List personByAddressAndFire(String address);
+
+    List<Address> personByStation(int stations);
 }

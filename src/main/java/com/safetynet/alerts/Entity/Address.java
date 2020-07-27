@@ -13,14 +13,14 @@ public class Address {
     @Id
     @GeneratedValue
     private int id;
-    @JsonView(JsonViews.ViewFirestation.class)
+    @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonStations.class})
     private String libelle;
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "city_id")
     @JsonIgnore
     private City city;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "address")
-    @JsonIgnore
+    @JsonView(JsonViews.ViewPersonStations.class)
     private List<Person> persons = new ArrayList<>();
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "address")
     @JsonView(JsonViews.ViewPersonAddressFire.class)

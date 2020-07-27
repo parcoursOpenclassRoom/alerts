@@ -65,8 +65,18 @@ public class AlertsE2ETest {
     }
 
     @Test
-    public void getPersonsFire(){
+    public void getPersonsFireTest(){
         String uri = "fire?address=1509 Culver St";
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<List> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.GET, entity, List.class);
+        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+    }
+
+    @Test
+    public void getPersonsStationsTest(){
+        String uri = "flood/stations?stations=12";
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
         ResponseEntity<List> response = restTemplate.exchange(
                 createURLWithPort(uri),

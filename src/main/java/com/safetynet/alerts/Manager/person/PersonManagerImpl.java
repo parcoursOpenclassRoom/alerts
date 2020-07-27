@@ -103,6 +103,20 @@ public class PersonManagerImpl implements PersonManager {
         return personRepository.findByAddress_Libelle(address);
     }
 
+    @Override
+    public List<Address> personByStation(int stations) {
+        List<Address> addressList = new ArrayList<>();
+        String number = String.valueOf(stations);
+        for(int i = 0; i < number.length(); i++) {
+            int stationNumber = Character.digit(number.charAt(i), 10);
+            List<Firestation> firestations = firestationManager.findByStation(stationNumber);
+            for (Firestation firestation : firestations){
+                addressList.add(firestation.getAddress());
+            }
+        }
+        return addressList;
+    }
+
     private boolean majorMinor(Date birthdate){
         LocalDate now = LocalDate.now();
         int age = Period.between(DateUtil.convertToLocalDateTime(birthdate), now).getYears();

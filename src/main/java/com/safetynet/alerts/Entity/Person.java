@@ -18,7 +18,7 @@ public class Person {
     private String firstName;
     @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonAddress.class})
     private String lastName;
-    @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonPhone.class, JsonViews.ViewPersonAddressFire.class})
+    @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonPhone.class, JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonStations.class})
     private String phone;
     private String email;
     private Date birthdate;
@@ -101,9 +101,13 @@ public class Person {
         this.medicalRecord = medicalRecord;
     }
 
-    @JsonView({JsonViews.ViewPersonAddress.class, JsonViews.ViewPersonAddressFire.class})
+    @JsonView({JsonViews.ViewPersonAddress.class, JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonStations.class})
     public int getAge(){
         LocalDate now = LocalDate.now();
         return Period.between(DateUtil.convertToLocalDateTime(this.birthdate), now).getYears();
+    }
+    @JsonView(JsonViews.ViewPersonStations.class)
+    public String getNameWithAntecedents(){
+        return firstName + " ("+ medicalRecord.getMedicalLibelle() + ") ";
     }
 }
