@@ -11,7 +11,7 @@ public class Allergie {
     @Id
     @GeneratedValue
     private int id;
-    @JsonView(JsonViews.ViewPersonAddressFire.class)
+    @JsonView({JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonInfo.class})
     private String libelle;
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "medicalRecord_id")

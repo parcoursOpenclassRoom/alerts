@@ -47,13 +47,6 @@ public interface FirestationManager {
     Firestation findByAddressAndStation(Address address, String station);
 
     /**
-     * return Persons of station number
-     * @param stationNumber
-     * @return
-     */
-    Map getPersonsOfStation(int stationNumber);
-
-    /**
      * return Firestation of stationNumber
      * @param stationNumber
      * @return

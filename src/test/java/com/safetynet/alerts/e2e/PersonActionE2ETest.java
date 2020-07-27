@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AlertsE2ETest {
+public class PersonActionE2ETest {
 
     @LocalServerPort
     private int port;
@@ -77,6 +77,16 @@ public class AlertsE2ETest {
     @Test
     public void getPersonsStationsTest(){
         String uri = "flood/stations?stations=12";
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<List> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.GET, entity, List.class);
+        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+    }
+
+    @Test
+    public void getEmailFromCityTest(){
+        String uri = "communityEmail?city=Culver";
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
         ResponseEntity<List> response = restTemplate.exchange(
                 createURLWithPort(uri),

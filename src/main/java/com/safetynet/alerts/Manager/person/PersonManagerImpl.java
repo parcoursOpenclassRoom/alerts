@@ -1,20 +1,14 @@
 package com.safetynet.alerts.Manager.person;
 
 import com.safetynet.alerts.Entity.Address;
-import com.safetynet.alerts.Entity.Firestation;
 import com.safetynet.alerts.Entity.Person;
 import com.safetynet.alerts.Manager.address.AddressManager;
-import com.safetynet.alerts.Manager.firestation.FirestationManager;
 import com.safetynet.alerts.Manager.medicalRecord.MedicalRecordManager;
-import com.safetynet.alerts.Manager.util.DateUtil;
 import com.safetynet.alerts.Repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class PersonManagerImpl implements PersonManager {
@@ -25,8 +19,6 @@ public class PersonManagerImpl implements PersonManager {
     AddressManager addressManager;
     @Autowired
     MedicalRecordManager medicalRecordManager;
-    @Autowired
-    FirestationManager firestationManager;
 
     @Override
     public Person save(Person person) {
@@ -66,62 +58,6 @@ public class PersonManagerImpl implements PersonManager {
         return personRepository.findByAddress(address);
     }
 
-    @Override
-    public Map<String,Integer> ageCount(List<Person> personList){
-        Map<String,Integer> count = new HashMap<>();
-        int major = 0;
-        int minor = 0;
-        for (Person person : personList){
-            if (majorMinor(person.getBirthdate())) {
-                major++;
-            } else {
-                minor++;
-            }
-        }
-        count.put("major", major);
-        count.put("minor", minor);
-        return count;
-    }
-
-    @Override
-    public List<Person> personChildByAddress(String address) {
-        return personRepository.findByAddress_Libelle(address).stream().filter( (a) ->  a.getAge() < 18 ).collect(Collectors.toList());
-    }
-
-    @Override
-    public List personPhoneByFirestation(int station) {
-        List<Firestation> firestations = firestationManager.findByStation(station);
-        List<Person> personList = new ArrayList<>();
-        for (Firestation firestation : firestations){
-            personList.addAll(findByAdresse(firestation.getAddress()));
-        }
-        return personList;
-    }
-
-    @Override
-    public List personByAddressAndFire(String address) {
-        return personRepository.findByAddress_Libelle(address);
-    }
-
-    @Override
-    public List<Address> personByStation(int stations) {
-        List<Address> addressList = new ArrayList<>();
-        String number = String.valueOf(stations);
-        for(int i = 0; i < number.length(); i++) {
-            int stationNumber = Character.digit(number.charAt(i), 10);
-            List<Firestation> firestations = firestationManager.findByStation(stationNumber);
-            for (Firestation firestation : firestations){
-                addressList.add(firestation.getAddress());
-            }
-        }
-        return addressList;
-    }
-
-    private boolean majorMinor(Date birthdate){
-        LocalDate now = LocalDate.now();
-        int age = Period.between(DateUtil.convertToLocalDateTime(birthdate), now).getYears();
-        return age >= 18 ? true : false;
-    }
 
     private Person persist(Person person){
         // we check that the address does not already exist otherwise we save it

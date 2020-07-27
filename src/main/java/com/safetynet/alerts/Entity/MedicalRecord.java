@@ -14,10 +14,10 @@ public class MedicalRecord {
     @Id
     @GeneratedValue
     private int id;
-    @JsonView(JsonViews.ViewPersonAddressFire.class)
+    @JsonView({JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonInfo.class})
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "medicalRecord")
     private List<Medication> medication = new ArrayList<>();
-    @JsonView(JsonViews.ViewPersonAddressFire.class)
+    @JsonView({JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonInfo.class})
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "medicalRecord")
     private List<Allergie> allergie = new ArrayList<>();
 

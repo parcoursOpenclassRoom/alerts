@@ -11,4 +11,9 @@ public class JsonViews {
 
     public class ViewPersonStations {
     }
+
+    public class ViewPersonInfo {}
+
+    public class ViewPersonEmail {
+    }
 }

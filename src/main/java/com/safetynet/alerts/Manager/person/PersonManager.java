@@ -4,7 +4,6 @@ import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.Person;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Person actions manager
@@ -46,12 +45,4 @@ public interface PersonManager {
      * @return
      */
     List<Person> findByAdresse(Address address);
-    Map<String,Integer> ageCount(List<Person> personList);
-    List<Person> personChildByAddress(String address);
-
-    List personPhoneByFirestation(int firestation);
-
-    List personByAddressAndFire(String address);
-
-    List<Address> personByStation(int stations);
 }

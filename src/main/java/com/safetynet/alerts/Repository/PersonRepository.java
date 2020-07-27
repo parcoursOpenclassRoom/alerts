@@ -9,6 +9,7 @@ import java.util.List;
 public interface PersonRepository extends JpaRepository<Person, Integer> {
     Person save(Person person);
     Person findTopByFirstNameAndLastName(String firstName, String lastName);
+    List<Person> findByFirstNameAndLastName(String firstName, String lastName);
     List<Person> findByAddress(Address address);
     List<Person> findByAddress_Libelle(String address);
 }

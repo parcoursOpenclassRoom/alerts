@@ -14,21 +14,22 @@ public class Person {
     @Id
     @GeneratedValue
     private int id;
-    @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonAddress.class, JsonViews.ViewPersonAddressFire.class })
+    @JsonView({JsonViews.ViewPersonInfo.class, JsonViews.ViewFirestation.class, JsonViews.ViewPersonAddress.class, JsonViews.ViewPersonAddressFire.class })
     private String firstName;
     @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonAddress.class})
     private String lastName;
     @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonPhone.class, JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonStations.class})
     private String phone;
+    @JsonView({JsonViews.ViewPersonInfo.class, JsonViews.ViewPersonEmail.class})
     private String email;
     private Date birthdate;
-    @JsonView(JsonViews.ViewPersonAddressFire.class)
+    @JsonView({JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonInfo.class})
     @OneToOne
     private MedicalRecord medicalRecord;
 
     @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "address_id")
-    @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonAddressFire.class})
+    @JsonView({JsonViews.ViewPersonInfo.class, JsonViews.ViewFirestation.class, JsonViews.ViewPersonAddressFire.class})
     private Address address;
 
     public Person() {
@@ -101,7 +102,7 @@ public class Person {
         this.medicalRecord = medicalRecord;
     }
 
-    @JsonView({JsonViews.ViewPersonAddress.class, JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonStations.class})
+    @JsonView({JsonViews.ViewPersonInfo.class, JsonViews.ViewPersonAddress.class, JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonStations.class})
     public int getAge(){
         LocalDate now = LocalDate.now();
         return Period.between(DateUtil.convertToLocalDateTime(this.birthdate), now).getYears();

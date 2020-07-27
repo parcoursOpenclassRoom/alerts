@@ -13,7 +13,7 @@ public class Address {
     @Id
     @GeneratedValue
     private int id;
-    @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonStations.class})
+    @JsonView({JsonViews.ViewPersonInfo.class, JsonViews.ViewFirestation.class, JsonViews.ViewPersonStations.class})
     private String libelle;
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "city_id")
