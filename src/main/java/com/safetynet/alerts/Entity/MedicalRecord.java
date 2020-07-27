@@ -1,6 +1,8 @@
 package com.safetynet.alerts.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.safetynet.alerts.Manager.util.JsonViews;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,8 +13,10 @@ public class MedicalRecord {
     @Id
     @GeneratedValue
     private int id;
+    @JsonView(JsonViews.ViewPersonAddressFire.class)
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "medicalRecord")
     private List<Medication> medication = new ArrayList<>();
+    @JsonView(JsonViews.ViewPersonAddressFire.class)
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "medicalRecord")
     private List<Allergie> allergie = new ArrayList<>();
 

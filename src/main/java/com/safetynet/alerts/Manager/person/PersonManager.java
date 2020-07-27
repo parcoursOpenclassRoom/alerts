@@ -50,4 +50,6 @@ public interface PersonManager {
     List<Person> personChildByAddress(String address);
 
     List personPhoneByFirestation(int firestation);
+
+    List personByAddressAndFire(String address);
 }

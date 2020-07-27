@@ -1,6 +1,8 @@
 package com.safetynet.alerts.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.safetynet.alerts.Manager.util.JsonViews;
 
 import javax.persistence.*;
 
@@ -9,6 +11,7 @@ public class Firestation {
     @Id
     @GeneratedValue
     private int id;
+    @JsonView(JsonViews.ViewPersonAddressFire.class)
     private String station;
     @ManyToOne
     @JoinColumn(name = "address_id")

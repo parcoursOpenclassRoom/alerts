@@ -64,6 +64,16 @@ public class AlertsE2ETest {
         assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
     }
 
+    @Test
+    public void getPersonsFire(){
+        String uri = "fire?address=1509 Culver St";
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
+        ResponseEntity<List> response = restTemplate.exchange(
+                createURLWithPort(uri),
+                HttpMethod.GET, entity, List.class);
+        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+    }
+
     private String createURLWithPort(String uri) {
         return "http://localhost:" + port + uri;
     }

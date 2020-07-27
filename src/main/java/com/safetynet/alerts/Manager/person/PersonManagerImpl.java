@@ -98,6 +98,11 @@ public class PersonManagerImpl implements PersonManager {
         return personList;
     }
 
+    @Override
+    public List personByAddressAndFire(String address) {
+        return personRepository.findByAddress_Libelle(address);
+    }
+
     private boolean majorMinor(Date birthdate){
         LocalDate now = LocalDate.now();
         int age = Period.between(DateUtil.convertToLocalDateTime(birthdate), now).getYears();

@@ -6,4 +6,6 @@ public class JsonViews {
     public static class ViewPersonAddress { };
 
     public class ViewPersonPhone {}
+
+    public class ViewPersonAddressFire { }
 }

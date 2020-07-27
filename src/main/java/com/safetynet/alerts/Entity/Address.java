@@ -23,7 +23,7 @@ public class Address {
     @JsonIgnore
     private List<Person> persons = new ArrayList<>();
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "address")
-    @JsonIgnore
+    @JsonView(JsonViews.ViewPersonAddressFire.class)
     private List<Firestation> firestations = new ArrayList<>();
 
     public Address(String libelle, City city) {

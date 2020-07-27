@@ -26,4 +26,10 @@ public class PersonController {
     public List getPhoneFromFirestation(@RequestParam int firestation){
         return personManager.personPhoneByFirestation(firestation);
     }
+
+    @JsonView(JsonViews.ViewPersonAddressFire.class)
+    @GetMapping("fire")
+    public List getPersonsFire(@RequestParam String address){
+        return personManager.personByAddressAndFire(address);
+    }
 }
