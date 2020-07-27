@@ -1,9 +1,12 @@
 package com.safetynet.alerts.Entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.safetynet.alerts.Manager.util.DateUtil;
 import com.safetynet.alerts.Manager.util.JsonViews;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 
 @Entity
@@ -11,9 +14,9 @@ public class Person {
     @Id
     @GeneratedValue
     private int id;
-    @JsonView(JsonViews.ViewFirestation.class)
+    @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonAddress.class })
     private String firstName;
-    @JsonView(JsonViews.ViewFirestation.class)
+    @JsonView({JsonViews.ViewFirestation.class, JsonViews.ViewPersonAddress.class})
     private String lastName;
     @JsonView(JsonViews.ViewFirestation.class)
     private String phone;
@@ -95,5 +98,11 @@ public class Person {
 
     public void setMedicalRecord(MedicalRecord medicalRecord) {
         this.medicalRecord = medicalRecord;
+    }
+
+    @JsonView(JsonViews.ViewPersonAddress.class)
+    public int getAge(){
+        LocalDate now = LocalDate.now();
+        return Period.between(DateUtil.convertToLocalDateTime(this.birthdate), now).getYears();
     }
 }

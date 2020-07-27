@@ -47,4 +47,5 @@ public interface PersonManager {
      */
     List<Person> findByAdresse(Address address);
     Map<String,Integer> ageCount(List<Person> personList);
+    List<Person> personChildByAddress(String address);
 }

@@ -1,7 +1,6 @@
 package com.safetynet.alerts.Manager.person;
 
 import com.safetynet.alerts.Entity.Address;
-import com.safetynet.alerts.Entity.Firestation;
 import com.safetynet.alerts.Entity.Person;
 import com.safetynet.alerts.Manager.address.AddressManager;
 import com.safetynet.alerts.Manager.medicalRecord.MedicalRecordManager;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonManagerImpl implements PersonManager {
@@ -77,6 +77,11 @@ public class PersonManagerImpl implements PersonManager {
         count.put("major", major);
         count.put("minor", minor);
         return count;
+    }
+
+    @Override
+    public List<Person> personChildByAddress(String address) {
+        return personRepository.findByAddress_Libelle(address).stream().filter( (a) ->  a.getAge() < 18 ).collect(Collectors.toList());
     }
 
     private boolean majorMinor(Date birthdate){
