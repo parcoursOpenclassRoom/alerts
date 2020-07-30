@@ -12,4 +12,6 @@ public interface MedicalRecordManager {
      * @return
      */
     MedicalRecord save(MedicalRecord medicalRecord);
+
+    void delete(String firstName, String lastName);
 }

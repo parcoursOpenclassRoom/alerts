@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 @Service
@@ -23,8 +24,8 @@ public class MatchDataEntityFromJson implements MatchDataEntity {
             Person person = new Person(
                     (String) object.get("firstName"),
                     (String) object.get("lastName"),
-                    (String) object.get("lastName"),
-                    (String) object.get("phone")
+                    (String) object.get("phone"),
+                    (String) object.get("email")
             );
             City city = new City(
                     (String) object.get("city"),
@@ -53,6 +54,7 @@ public class MatchDataEntityFromJson implements MatchDataEntity {
             JSONArray allergies = (JSONArray) object.get("allergies");
             String firstName = (String) object.get("firstName");
             String lastName = (String) object.get("lastName");
+            String birthdate = (String) object.get("birthdate");
 
             List<Medication> medicationList = new ArrayList<>();
             List<Allergie> allergs = new ArrayList<>();
@@ -78,6 +80,7 @@ public class MatchDataEntityFromJson implements MatchDataEntity {
                     .findAny()
                     .orElse(null);
             if(person != null){
+                person.setBirthdate(new Date(birthdate));
                 medicalRecord.setAllergie(allergs);
                 medicalRecord.setMedication(medicationList);
                 person.setMedicalRecord(medicalRecord);

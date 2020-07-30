@@ -1,8 +1,10 @@
 package com.safetynet.alerts.Manager.person;
 
+import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.Person;
 
 import java.util.List;
+
 /**
  * Person actions manager
  */
@@ -26,10 +28,9 @@ public interface PersonManager {
     Person find(int id);
     /**
      * delete Person from id
-     * @param id
      * @return
      */
-    Person delete(int id);
+    void delete(Person person);
     /**
      * return Person from firstName and lastName
      * @param firstName
@@ -37,4 +38,12 @@ public interface PersonManager {
      * @return
      */
     Person findByLastNameAndFirstName(String firstName, String lastName);
+    /**
+     * return list persons of adresse
+     * @param address
+     * @return
+     */
+    List<Person> findByAdresse(Address address);
+
+    void delete(String firstName, String lastName);
 }

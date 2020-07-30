@@ -2,16 +2,10 @@ package com.safetynet.alerts.Manager.city;
 
 import com.safetynet.alerts.Entity.City;
 
-import java.util.List;
 /**
  * City actions manager
  */
 public interface CityManager {
-    /**
-     * save a list cities
-     * @param cities
-     */
-    List<City> saveAll(List<City> cities);
     /**
      * return City from id
      * @param id

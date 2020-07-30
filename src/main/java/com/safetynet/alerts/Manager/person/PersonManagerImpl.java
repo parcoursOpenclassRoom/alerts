@@ -1,16 +1,16 @@
 package com.safetynet.alerts.Manager.person;
 
 import com.safetynet.alerts.Entity.Address;
-import com.safetynet.alerts.Entity.Firestation;
 import com.safetynet.alerts.Entity.Person;
+import com.safetynet.alerts.Exception.NotFoundException;
 import com.safetynet.alerts.Manager.address.AddressManager;
 import com.safetynet.alerts.Manager.medicalRecord.MedicalRecordManager;
 import com.safetynet.alerts.Repository.PersonRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PersonManagerImpl implements PersonManager {
@@ -24,7 +24,7 @@ public class PersonManagerImpl implements PersonManager {
 
     @Override
     public Person save(Person person) {
-        return personRepository.save(person);
+        return persist(person);
     }
 
     @Override
@@ -46,8 +46,8 @@ public class PersonManagerImpl implements PersonManager {
     }
 
     @Override
-    public Person delete(int id) {
-        return null;
+    public void delete(Person person) {
+         personRepository.delete(person);
     }
 
     @Override
@@ -55,15 +55,34 @@ public class PersonManagerImpl implements PersonManager {
         return personRepository.findTopByFirstNameAndLastName(firstName,lastName);
     }
 
+    @Override
+    public List<Person> findByAdresse(Address address) {
+        return personRepository.findByAddress(address);
+    }
+
+    @Override
+    public void delete(String firstName, String lastName) {
+        Person person = findByLastNameAndFirstName(firstName,lastName);
+        if(person == null)
+            new NotFoundException("Not found person firstName "+firstName);
+        delete(person);
+    }
+
+
     private Person persist(Person person){
         // we check that the address does not already exist otherwise we save it
-        Address address = addressManager.findByLibelle(person.getAddress().getLibelle());
-        if(address == null)
-            address = addressManager.save(person.getAddress());
-        person.setAddress(address);
+        if(person.getAddress() != null){
+            Address address = addressManager.findByLibelle(person.getAddress().getLibelle());
+            if(address == null)
+                address = addressManager.save(person.getAddress());
+            person.setAddress(address);
+        }
         // we check that the person does not have a setMedicalRecord already registered otherwise we save it
         if(person.getMedicalRecord() != null && person.getMedicalRecord().getId() == 0 )
             person.setMedicalRecord(medicalRecordManager.save(person.getMedicalRecord()));
+        Person personExist = find(person.getId());
+        if(personExist != null)
+            BeanUtils.copyProperties(person, personExist);
         return personRepository.save(person);
     }
 }

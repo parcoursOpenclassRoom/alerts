@@ -32,10 +32,10 @@ public interface FirestationManager {
 
     /**
      * delete Firestation from id
-     * @param id
+     * @param firestation
      * @return
      */
-    Firestation delete(int id);
+    void delete(Firestation firestation);
 
     /**
      * return Firestation from address and station
@@ -44,4 +44,13 @@ public interface FirestationManager {
      * @return
      */
     Firestation findByAddressAndStation(Address address, String station);
+
+    /**
+     * return Firestation of stationNumber
+     * @param stationNumber
+     * @return
+     */
+    List<Firestation> findByStation(int stationNumber);
+
+    void delete(int id);
 }
