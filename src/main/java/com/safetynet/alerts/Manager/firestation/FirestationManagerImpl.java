@@ -2,6 +2,7 @@ package com.safetynet.alerts.Manager.firestation;
 
 import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.Firestation;
+import com.safetynet.alerts.Exception.NotFoundException;
 import com.safetynet.alerts.Manager.address.AddressManager;
 import com.safetynet.alerts.Manager.person.PersonManager;
 import com.safetynet.alerts.Repository.FirestationRepository;
@@ -25,7 +26,7 @@ public class FirestationManagerImpl implements FirestationManager {
     @Override
     public Firestation save(Firestation firestation) {
         // check that a non-persisted address exists and we record
-        if(firestation.getAddress() != null ){
+        if(firestation.getAddress() != null && firestation.getAddress().getId() == 0 ){
             Address address = addressManager.findByLibelle(firestation.getAddress().getLibelle());
             if(address == null)
                 address = addressManager.save(firestation.getAddress());
@@ -50,12 +51,12 @@ public class FirestationManagerImpl implements FirestationManager {
 
     @Override
     public Firestation find(int id) {
-        return firestationRepository.findById(id);
+        return firestationRepository.findById(id).orElseThrow(()-> new NotFoundException("Not found firestation ID "+id));
     }
 
     @Override
-    public Firestation delete(int id) {
-        return null;
+    public void delete(Firestation firestation) {
+         firestationRepository.delete(firestation);
     }
 
     @Override
@@ -65,7 +66,13 @@ public class FirestationManagerImpl implements FirestationManager {
 
     @Override
     public List<Firestation> findByStation(int stationNumber) {
-        return firestationRepository.findByStation(String.valueOf(stationNumber));
+        return firestationRepository.findByStation(String.valueOf(stationNumber)).orElseThrow(()-> new NotFoundException("Not found firestation stationNumber "+stationNumber));
+    }
+
+    @Override
+    public void delete(int id) {
+        Firestation firestation = find(id);
+        delete(firestation);
     }
 
 

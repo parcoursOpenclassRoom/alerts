@@ -1,18 +1,30 @@
 package com.safetynet.alerts.Controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.Person;
 import com.safetynet.alerts.Manager.person.PersonManager;
-import com.safetynet.alerts.Manager.util.JsonViews;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
+@RequestMapping("/person")
 public class PersonController {
 
+    @Autowired
+    PersonManager personManager;
+
+    @PostMapping
+    public Person create(@RequestBody Person person){
+        return personManager.save(person);
+    }
+
+    @PutMapping
+    public Person update(@RequestBody Person person){
+        return personManager.save(person);
+    }
+
+    @DeleteMapping("/{firstName}/{lastName}")
+    public void delete(@PathVariable String firstName, @PathVariable String lastName){
+        personManager.delete(firstName, lastName);
+    }
 }

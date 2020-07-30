@@ -1,97 +1,92 @@
 package com.safetynet.alerts.e2e;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@AutoConfigureMockMvc
 public class PersonActionE2ETest {
 
     @LocalServerPort
     private int port;
-    TestRestTemplate restTemplate = new TestRestTemplate();
-    HttpHeaders headers = new HttpHeaders();
-    int STATUS_CODE_SUCCESS = 200;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Test
-    public void readAndSaveJsonTest(){
+    @Order(1)
+    public void readAndSaveJsonTest() throws Exception {
         String uri = "api/reading-url?url=https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DA+Java+EN/P5+/data.json";
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        ResponseEntity<Map> response = restTemplate.exchange(
-                createURLWithPort(uri),
-                HttpMethod.GET, entity, Map.class);
-        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+        mockMvc.perform(get(createURLWithPort(uri)).contentType(APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void getPersonsOfStationTest(){
+    @Order(2)
+    public void getPersonsOfStationTest() throws Exception {
         String uri = "firestation?stationNumber=1";
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        ResponseEntity<Map> response = restTemplate.exchange(
-                createURLWithPort(uri),
-                HttpMethod.GET, entity, Map.class);
-        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+        mockMvc.perform(get(createURLWithPort(uri)).contentType(APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void getChildFromAddressTest(){
+    @Order(3)
+    public void getChildFromAddressTest() throws Exception {
         String uri = "childAlert?address=1509 Culver St";
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        ResponseEntity<List> response = restTemplate.exchange(
-                createURLWithPort(uri),
-                HttpMethod.GET, entity, List.class);
-        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+        mockMvc.perform(get(createURLWithPort(uri)).contentType(APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void getPhoneFromFirestationTest(){
+    @Order(4)
+    public void getPhoneFromFirestationTest() throws Exception {
         String uri = "phoneAlert?firestation=1";
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        ResponseEntity<List> response = restTemplate.exchange(
-                createURLWithPort(uri),
-                HttpMethod.GET, entity, List.class);
-        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+        mockMvc.perform(get(createURLWithPort(uri)).contentType(APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void getPersonsFireTest(){
+    @Order(5)
+    public void getPersonsFireTest() throws Exception {
         String uri = "fire?address=1509 Culver St";
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        ResponseEntity<List> response = restTemplate.exchange(
-                createURLWithPort(uri),
-                HttpMethod.GET, entity, List.class);
-        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+        mockMvc.perform(get(createURLWithPort(uri)).contentType(APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void getPersonsStationsTest(){
+    @Order(6)
+    public void getPersonsStationsTest() throws Exception {
         String uri = "flood/stations?stations=12";
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        ResponseEntity<List> response = restTemplate.exchange(
-                createURLWithPort(uri),
-                HttpMethod.GET, entity, List.class);
-        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+        mockMvc.perform(get(createURLWithPort(uri)).contentType(APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void getEmailFromCityTest(){
+    @Order(7)
+    public void getEmailFromCityTest() throws Exception {
         String uri = "communityEmail?city=Culver";
-        HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        ResponseEntity<List> response = restTemplate.exchange(
-                createURLWithPort(uri),
-                HttpMethod.GET, entity, List.class);
-        assertEquals(STATUS_CODE_SUCCESS , response.getStatusCodeValue());
+        mockMvc.perform(get(createURLWithPort(uri)).contentType(APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
     }
 
     private String createURLWithPort(String uri) {

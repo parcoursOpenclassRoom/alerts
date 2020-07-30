@@ -2,13 +2,12 @@ package com.safetynet.alerts.Manager.address;
 
 import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.City;
+import com.safetynet.alerts.Exception.NotFoundException;
 import com.safetynet.alerts.Manager.city.CityManager;
 import com.safetynet.alerts.Repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class AddressManagerimpl implements AddressManager {
@@ -18,16 +17,6 @@ public class AddressManagerimpl implements AddressManager {
     @Autowired
     CityManager cityManager;
 
-    @Override
-    public List<Address> saveAll(List<Address> addresses) {
-        List<Address> addressList = new ArrayList<>();
-        for(Address address : addresses){
-            if(findByLibelle(address.getLibelle()) == null){
-                addressList.add(persist(address));
-            }
-        }
-        return addressList;
-    }
 
     public Address findByLibelle(String libelle) {
         return addressRepository.findByLibelle(libelle);
@@ -40,7 +29,7 @@ public class AddressManagerimpl implements AddressManager {
 
     @Override
     public Address find(int id) {
-        return addressRepository.findById(id);
+        return addressRepository.findById(id).orElseThrow(() -> new NotFoundException("Address not found Id : "+id));
     }
 
     private Address persist(Address address){

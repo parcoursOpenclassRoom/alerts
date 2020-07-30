@@ -5,7 +5,6 @@ import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.Firestation;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Firestation actions manager
@@ -33,10 +32,10 @@ public interface FirestationManager {
 
     /**
      * delete Firestation from id
-     * @param id
+     * @param firestation
      * @return
      */
-    Firestation delete(int id);
+    void delete(Firestation firestation);
 
     /**
      * return Firestation from address and station
@@ -52,4 +51,6 @@ public interface FirestationManager {
      * @return
      */
     List<Firestation> findByStation(int stationNumber);
+
+    void delete(int id);
 }

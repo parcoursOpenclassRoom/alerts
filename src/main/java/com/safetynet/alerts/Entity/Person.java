@@ -1,5 +1,7 @@
 package com.safetynet.alerts.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.safetynet.alerts.Manager.util.DateUtil;
 import com.safetynet.alerts.Manager.util.JsonViews;
@@ -105,10 +107,10 @@ public class Person {
     @JsonView({JsonViews.ViewPersonInfo.class, JsonViews.ViewPersonAddress.class, JsonViews.ViewPersonAddressFire.class, JsonViews.ViewPersonStations.class})
     public int getAge(){
         LocalDate now = LocalDate.now();
-        return Period.between(DateUtil.convertToLocalDateTime(this.birthdate), now).getYears();
+        return birthdate != null ? Period.between(DateUtil.convertToLocalDateTime(this.birthdate), now).getYears() : 0;
     }
     @JsonView(JsonViews.ViewPersonStations.class)
     public String getNameWithAntecedents(){
-        return firstName + " ("+ medicalRecord.getMedicalLibelle() + ") ";
+        return medicalRecord != null ? firstName + " ("+ medicalRecord.getMedicalLibelle() + ") " : null;
     }
 }

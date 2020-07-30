@@ -1,6 +1,7 @@
 package com.safetynet.alerts.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.safetynet.alerts.Manager.util.JsonViews;
 

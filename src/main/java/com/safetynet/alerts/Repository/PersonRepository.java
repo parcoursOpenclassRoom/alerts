@@ -12,4 +12,5 @@ public interface PersonRepository extends JpaRepository<Person, Integer> {
     List<Person> findByFirstNameAndLastName(String firstName, String lastName);
     List<Person> findByAddress(Address address);
     List<Person> findByAddress_Libelle(String address);
+    void delete(Person person);
 }

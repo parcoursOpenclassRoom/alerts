@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.safetynet.alerts.Entity.Address;
 import com.safetynet.alerts.Entity.Person;
 import com.safetynet.alerts.Manager.person.PersonActionManager;
-import com.safetynet.alerts.Manager.person.PersonManager;
 import com.safetynet.alerts.Manager.util.JsonViews;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

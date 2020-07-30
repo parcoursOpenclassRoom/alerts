@@ -28,10 +28,9 @@ public interface PersonManager {
     Person find(int id);
     /**
      * delete Person from id
-     * @param id
      * @return
      */
-    Person delete(int id);
+    void delete(Person person);
     /**
      * return Person from firstName and lastName
      * @param firstName
@@ -45,4 +44,6 @@ public interface PersonManager {
      * @return
      */
     List<Person> findByAdresse(Address address);
+
+    void delete(String firstName, String lastName);
 }
