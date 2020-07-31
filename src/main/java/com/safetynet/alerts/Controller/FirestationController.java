@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/firestation")
 public class FirestationController {
-    Logger logger = LogManager.getLogger(FirestationController.class);
 
     @Autowired
     FirestationManager firestationManager;
 
     @PostMapping
     public Firestation create(@RequestBody Firestation firestation){
-        logger.info("App initialized!!!");
         return firestationManager.save(firestation);
     }
 
